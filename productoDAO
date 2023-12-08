@@ -1,0 +1,16 @@
+
+
+public class ProductoDAO {
+    private List<Producto> productos;
+
+    // ... (métodos CRUD)
+
+    public void actualizarStock(int productoId, int cantidad) {
+        Producto producto = obtenerProductoPorId(productoId);
+        if (producto != null) {
+            int nuevoStock = producto.getStock() + cantidad;
+            producto.setStock(nuevoStock);
+            // Puedes agregar validaciones para asegurar que el stock no sea negativo
+        }
+    }
+}

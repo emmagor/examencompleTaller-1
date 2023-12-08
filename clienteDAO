@@ -1,0 +1,33 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ClienteDAO {
+    private List<Cliente> clientes;
+
+    public ClienteDAO() {
+        this.clientes = new ArrayList<>();
+    }
+
+    public void agregarCliente(Cliente cliente) {
+        clientes.add(cliente);
+    }
+
+    public Cliente obtenerClientePorId(int clienteId) {
+        return clientes.stream().filter(c -> c.getId() == clienteId).findFirst().orElse(null);
+    }
+
+    public void actualizarCliente(Cliente cliente) {
+        // Implementa la actualización según tus necesidades
+        // Puedes buscar el cliente por ID y luego actualizar sus atributos
+    }
+
+    public void eliminarCliente(int clienteId) {
+        Cliente cliente = obtenerClientePorId(clienteId);
+        if (cliente != null && cliente.getVentas().isEmpty()) {
+            clientes.remove(cliente);
+        } else {
+            System.out.println("No se puede eliminar el cliente, tiene ventas asociadas.");
+        }
+    }
+}

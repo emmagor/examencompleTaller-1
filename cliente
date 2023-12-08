@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Cliente {
+    private int id;
+    private String nombre;
+    private List<Venta> ventas;
+
+    public Cliente(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+        this.ventas = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
+    }
+
+    public void agregarVenta(Venta venta) {
+        this.ventas.add(venta);
+    }
+}

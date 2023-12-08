@@ -1,0 +1,43 @@
+Flujo de Ventas:
+public class VentaService {
+    private ClienteDAO clienteDAO;
+    private ProductoDAO productoDAO;
+    private VentaDAO ventaDAO;
+
+    public VentaService(ClienteDAO clienteDAO, ProductoDAO productoDAO, VentaDAO ventaDAO) {
+        this.clienteDAO = clienteDAO;
+        this.productoDAO = productoDAO;
+        this.ventaDAO = ventaDAO;
+    }
+
+    public void realizarVenta(int clienteId, List<Integer> productosIds) {
+        Cliente cliente = clienteDAO.obtenerClientePorId(clienteId);
+        if (cliente != null) {
+            List<Producto> productos = new ArrayList<>();
+            double total = 0;
+
+            for (int productoId : productosIds) {
+                Producto producto = productoDAO.obtenerProductoPorId(productoId);
+                if (producto != null && producto.getStock() > 0) {
+                    productos.add(producto);
+                    total += producto.getPrecio();
+                    productoDAO.actualizarStock(productoId, -1); // Reduce el stock
+                }
+            }
+
+            if (!productos.isEmpty()) {
+                Venta venta = new Venta(generarIdVenta(), cliente, productos, total);
+                ventaDAO.agregarVenta(venta);
+                cliente.agregarVenta(venta);
+            } else {
+                System.out.println("No se pudo realizar la venta. Productos no disponibles.");
+            }
+        }
+    }
+
+    private int generarIdVenta() {
+        // Implementa la lógica para generar un ID único para la venta
+        return ventaDAO.obtenerUltimoId() + 1;
+    }
+}
+
